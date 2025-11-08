@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { useAuth } from '../../hook/useAuth';
-import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '../../components/ui/Card';
-import AuthLayout from '../../components/layout/AuthLayout';
+import { useAuth } from '../App';
+import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '../components/ui/Card';
+import AuthLayout from '..//components/layout/AuthLayout';
 import { Mail, Lock } from 'lucide-react';
-import { GoogleIcon } from '../../components/ui/icons';
-import SocialButton from '../../components/ui/SocialButton';
+import { GoogleIcon } from '../components/ui/icons';
+import SocialButton from '../components/ui/SocialButton';
 
 const LoginPage = () => {
   const [email, setEmail] = useState('');
@@ -13,23 +13,16 @@ const LoginPage = () => {
   const navigate = useNavigate();
   const auth = useAuth();
 
-interface Credentials {
+  interface LoginFormData {
     email: string;
     password: string;
-}
+  }
 
-interface AuthHook {
-    login: (email: string, password: string) => void | Promise<void>;
-}
-
-const emailValue: string = email;
-const passwordValue: string = password;
-
-const handleSubmit = (e: React.FormEvent<HTMLFormElement>): void => {
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>): void => {
     e.preventDefault();
-    (auth as AuthHook).login(emailValue, passwordValue);
-    (navigate as ReturnType<typeof useNavigate>)('/dashboard');
-};
+    auth.login(email, password);
+    navigate('/');
+  };
 
   return (
     <AuthLayout>
